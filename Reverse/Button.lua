@@ -1,4 +1,4 @@
-Button = Class{}
+Button = _G.Class{}
 
 Button.WIDTH = 30
 Button.HEIGHT = 50
@@ -17,8 +17,8 @@ function Button:clicked(x, y)
 end
 
 function Button:draw()
-    love.graphics.setColor(WHITE_COLOR)
+    love.graphics.setColor(_G.WHITE_COLOR)
     love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
-    love.graphics.setColor(BUTTON_FG_COLOR)
+    love.graphics.setColor(_G.BUTTON_FG_COLOR)
     love.graphics.printf(tostring(self.value), self.x, self.y + self.height/2 - love.graphics.getFont():getHeight()/2, self.width, "center")
 end

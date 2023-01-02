@@ -6,9 +6,7 @@ require("StateMachine")
 require('states/BaseState')
 require('states/PlayState')
 
--- constants
-_G.BACKGROUND_COLOR = {255/255, 202/255, 123/255}
-_G.WHITE_COLOR = {1, 1, 1}
+
 
 function love.load()
     love.window.setFullscreen(true)
@@ -25,8 +23,6 @@ function love.load()
 
     _G.StateMachine:change('play')
     
-    love.graphics.setBackgroundColor(BACKGROUND_COLOR)
-    love.graphics.setFont(main_font)
 
     love.mouse.mousePressed = false
 end

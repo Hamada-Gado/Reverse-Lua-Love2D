@@ -3,13 +3,11 @@ PlayState = Class{__includes = BaseState}
 
 function PlayState:init()
     self:create_shuffled_list()
+    self:create_buttons()
     self.number_trials = 0
-    self.buttons = {}
     self.buttonsPressed = {}
     
-    for i = 1, 9 do
-        self.buttons[i] = Button(i, (i-1) * BUTTON_WIDTH + love.graphics.getWidth()/2 - BUTTON_WIDTH/2 * 9, love.graphics.getHeight()/2)
-    end
+    
 end
 
 function PlayState:create_shuffled_list()
@@ -20,6 +18,34 @@ function PlayState:create_shuffled_list()
         j = math.random(9)
         self.game_list[i], self.game_list[j] = self.game_list[j], self.game_list[i]
     end
+end
+
+function PlayState:create_buttons()
+    self.buttons = {}
+
+    local size = math.floor((love.graphics.getWidth() - BUTTON_PADDING_X*3) / 3)
+    if size < MIN_BUTTON_SIZE then size = MIN_BUTTON_SIZE
+    elseif size > MAX_BUTTON_SIZE then size = MAX_BUTTON_SIZE end 
+
+    local j = 1
+    local x, y = 0, love.graphics.getHeight()/3 + size*(j+1) + BUTTON_PADDING_Y*(j-1)
+    for i = 1, 9 do
+        if i%3 == 1 then 
+            x = (love.graphics.getWidth() - 3*size) / 2 - BUTTON_PADDING_X
+        elseif i%3 == 2 then
+            x = (love.graphics.getWidth() - size) / 2
+        else
+            x = (love.graphics.getWidth() + size) / 2 + BUTTON_PADDING_X
+        end
+    
+        self.buttons[i] = Button(i, x, y, size)
+        if i % 3 == 0 then
+            j = j + 1
+            y = love.graphics.getHeight()/3 + size*(j+1) + BUTTON_PADDING_Y*(j-1)
+        end
+    end
+
+    self.buttons[0] = Button(0, (love.graphics.getWidth() - size)/2, y, size)
 end
 
 function PlayState:reverse(number)
@@ -65,7 +91,7 @@ function PlayState:render()
     if self:check_win() then
         love.graphics.printf("You win!!\nNumber of tries: " .. tostring(self.number_trials), 0, love.graphics.getHeight()/2, love.graphics.getWidth(), "center")
     else
-        love.graphics.printf(table.concat(self.game_list, " "), 0, love.graphics.getHeight()/4, love.graphics.getWidth(), "center")    
+        love.graphics.printf(table.concat(self.game_list, " "), 0, love.graphics.getHeight()/3, love.graphics.getWidth(), "center")    
         for _, button in ipairs(self.buttons) do
             button:draw()
         end

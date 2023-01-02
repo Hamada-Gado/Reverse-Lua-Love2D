@@ -4,7 +4,8 @@ function love.conf(t)
     t.modules.joystick = false
     t.externalstorage = true
     t.window.resizable = false
-    t.window.fullscreen = true
+    t.window.width = 1
+    t.window.height = 2
     t.window.vsync = true
 
 end

@@ -11,8 +11,10 @@ _G.BACKGROUND_COLOR = {255/255, 202/255, 123/255}
 _G.WHITE_COLOR = {1, 1, 1}
 
 function love.load()
-    math.randomseed(os.time())
+    love.window.setFullscreen(true)
     
+    math.randomseed(os.time())
+
     _G.main_font = love.graphics.newFont('font.ttf', 32)
     
     _G.StateMachine = StateMachine {
@@ -48,6 +50,5 @@ end
 
 function love.draw()
     love.graphics.clear(BACKGROUND_COLOR)
-    _G.StateMachine:render()
-    
+    _G.StateMachine:render()   
 end

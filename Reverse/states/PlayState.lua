@@ -14,15 +14,11 @@ end
 
 function PlayState:create_shuffled_list()
     self.game_list = {1,2,3,4,5,6,7,8,9}
+    local i, j
     for _ = 1, #self.game_list do
-        
-        local i = math.random(9)
-        local j = math.random(9)
-        local temp = self.game_list[i]
-        self.game_list[i] = self.game_list[j]
-        self.game_list[j] = temp
-        i = i + 1
-        j = j - 1
+        i = math.random(9)
+        j = math.random(9)
+        self.game_list[i], self.game_list[j] = self.game_list[j], self.game_list[i]
     end
 end
 
@@ -31,9 +27,7 @@ function PlayState:reverse(number)
     local j = number
     local k = number%2 == 0 and (number)/2 or (number-1)/2
     while i <= k do
-        local temp = self.game_list[i]
-        self.game_list[i] = self.game_list[j]
-        self.game_list[j] = temp
+        self.game_list[i], self.game_list[j] = self.game_list[j], self.game_list[i]
         i = i + 1
         j = j - 1
     end

@@ -1,6 +1,6 @@
 -- constants
 BACKGROUND_COLOR = {255/255, 202/255, 123/255}
-GAME_LIST_COLOR = {1, 1, 1}
+NUMBERS_LIST_COLOR = {1, 1, 1}
 
 PlayState = Class{__includes = BaseState}
 
@@ -9,7 +9,7 @@ function PlayState:init()
     self:create_buttons()
     self.number_trials = 0
     self.buttonsPressed = {}
-    GAME_LIST_FONT = love.graphics.newFont("font.ttf", math.floor((love.graphics.getWidth() - 20)) / (#self.game_list*2))
+    NUMBERS_LIST_FONT = love.graphics.newFont("font.ttf", math.floor((love.graphics.getWidth() - 11) / 9) - 10)
     
 end
 
@@ -20,12 +20,12 @@ function PlayState:reset()
 end
 
 function PlayState:create_shuffled_list()
-    self.game_list = {1,2,3,4,5,6,7,8,9}
+    self.numbers_list = {1,2,3,4,5,6,7,8,9}
     local i, j
-    for _ = 1, #self.game_list do
+    for _ = 1, #self.numbers_list do
         i = math.random(9)
         j = math.random(9)
-        self.game_list[i], self.game_list[j] = self.game_list[j], self.game_list[i]
+        self.numbers_list[i], self.numbers_list[j] = self.numbers_list[j], self.numbers_list[i]
     end
 end
 
@@ -67,14 +67,14 @@ function PlayState:reverse(number)
     local j = number
     local k = number%2 == 0 and (number)/2 or (number-1)/2
     while i <= k do
-        self.game_list[i], self.game_list[j] = self.game_list[j], self.game_list[i]
+        self.numbers_list[i], self.numbers_list[j] = self.numbers_list[j], self.numbers_list[i]
         i = i + 1
         j = j - 1
     end
 end
 
 function PlayState:check_win()
-    return table.concat(self.game_list) == "123456789"
+    return table.concat(self.numbers_list) == "123456789"
 end
 
 function PlayState:update(dt)
@@ -109,12 +109,12 @@ end
 
 function PlayState:render()
     love.graphics.setBackgroundColor(BACKGROUND_COLOR)
-    love.graphics.setColor(GAME_LIST_COLOR)
+    love.graphics.setColor(NUMBERS_LIST_COLOR)
     if self:check_win() then
         love.graphics.printf("You win!!\nNumber of tries: " .. tostring(self.number_trials), 0, love.graphics.getHeight()/2, love.graphics.getWidth(), "center")
     else
-        love.graphics.setFont(GAME_LIST_FONT)
-        love.graphics.printf(table.concat(self.game_list, " "), 0, love.graphics.getHeight()/3, love.graphics.getWidth(), "center")    
+        love.graphics.setFont(NUMBERS_LIST_FONT)
+        love.graphics.printf(" " .. table.concat(self.numbers_list, " ") .. " ", 0, love.graphics.getHeight()/3, love.graphics.getWidth(), "center")
         for _, button in ipairs(self.buttons) do
             button:draw()
         end

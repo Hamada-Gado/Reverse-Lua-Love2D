@@ -1,6 +1,6 @@
 
 function love.conf(t)
-    t.console = true
+    t.console = false
     t.modules.joystick = false
     t.externalstorage = true
     t.window.resizable = false

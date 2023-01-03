@@ -2,8 +2,6 @@ PlayState = Class{__includes = BaseState}
 
 -- constants
 
-local NUMBERS_LIST_COLOR = {1, 1, 1}
-
 local MAX_NUMBERS_LIST_FONT = math.floor(MAX_SCREEN_WIDTH / 10)
 
 function PlayState:init()
@@ -28,8 +26,6 @@ function PlayState:create_shuffled_list()
         j = math.random(9)
         self.numbers_list[i], self.numbers_list[j] = self.numbers_list[j], self.numbers_list[i]
     end
-
-    self.numbers_list = {2,1,3,4,5,6,7,8,9}
 end
 
 function PlayState:create_buttons()
@@ -49,15 +45,15 @@ function PlayState:create_buttons()
             x = (love.graphics.getWidth() + width) / 2 + BUTTON_PADDING_X
         end
     
-        self.buttons[i] = Button(i, x, y, width, height)
+        self.buttons[i] = Button(i, x, y, width, height, 1)
         if i % 3 == 0 then
             j = j + 1
             y = (love.graphics.getHeight()/3 + height*(j-1) + BUTTON_PADDING_Y*(j-1))
         end
     end
 
-    self.buttons[10] = Button(0, (love.graphics.getWidth() - width)/2, y, width, height)
-    self.buttons[11] = Button("BACK", (BUTTON_PADDING_X*1.5), love.graphics.getHeight()*0.9, width*2.5, height)
+    self.buttons[10] = Button(0, (love.graphics.getWidth() - width)/2, y, width, height, 1)
+    self.buttons[11] = Button("BACK", (BUTTON_PADDING_X*1.5), love.graphics.getHeight()*0.9, width*2, height)
 end
 
 function PlayState:reverse(number)
@@ -115,7 +111,7 @@ end
 
 function PlayState:render()
     love.graphics.setBackgroundColor(BACKGROUND_COLOR)
-    love.graphics.setColor(NUMBERS_LIST_COLOR)
+    love.graphics.setColor(TITLE_FG_COLOR)
     love.graphics.setFont(NUMBERS_LIST_FONT)
     love.graphics.printf(" " .. table.concat(self.numbers_list, " ") .. " ", -10, love.graphics.getHeight()/6, love.graphics.getWidth(), "center") -- -10 is a number found by trial to make the numbers list look exactly centered
     for _, button in ipairs(self.buttons) do

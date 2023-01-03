@@ -9,8 +9,9 @@ require("Button")
 
 require("StateMachine")
 require("states/BaseState")
-require("states/PlayState")
 require("states/TitleState")
+require("states/InstructionState")
+require("states/PlayState")
 require("states/ScoreState")
 
 function love.load()
@@ -26,6 +27,7 @@ function love.load()
     
     _G.StateMachine = StateMachine {
         ['title'] = function() return TitleState() end,
+        ['instruction'] = function() return InstructionState() end,
         ['play'] = function() return PlayState() end,
         ['score'] = function() return ScoreState() end,
     }

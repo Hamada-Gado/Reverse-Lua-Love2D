@@ -1,5 +1,7 @@
 TitleState = Class{__includes= BaseState}
 
+TITLE_FG_COLOR = {155/255, 41/255, 72/255}
+
 function TitleState:init()
 
     TITLE_FONT      = love.graphics.newFont("font.ttf", love.graphics.getWidth()/5)
@@ -40,7 +42,7 @@ function TitleState:update(dt)
         elseif self.buttons["HISTORY"]:check_clicked(love.mouse.mouseReleased.x, love.mouse.mouseReleased.y) then
             -- TODO make a history system to save the intial patterns
         elseif self.buttons["INSTRUCTIONS"]:check_clicked(love.mouse.mouseReleased.x, love.mouse.mouseReleased.y) then
-            -- TODO wirte the instruction of the game
+            _G.StateMachine:change('instruction')
         elseif self.buttons["QUIT"]:check_clicked(love.mouse.mouseReleased.x, love.mouse.mouseReleased.y) then
             love.event.quit()
         end
@@ -54,6 +56,7 @@ end
 
 function TitleState:render()
 
+    love.graphics.setColor(TITLE_FG_COLOR)
     love.graphics.setFont(TITLE_FONT)
     love.graphics.printf("REVERSE", 0, love.graphics.getHeight()/8, love.graphics.getWidth(), "center")
 

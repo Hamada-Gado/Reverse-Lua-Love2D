@@ -3,20 +3,19 @@ Button = Class{}
 BUTTON_PADDING_X = 10
 BUTTON_PADDING_Y = 10
 
-
-BUTTON_FG_COLOR     = {155/255, 41/255, 72/255}
+BUTTON_FG_COLOR     = {210/255, 56/255, 108/255}
 BUTTON_BG_COLOR     = {1, 1, 1}
 BUTTON_BG_COLOR2    = {0.5, 0.5, 0.5}
 
-function Button:init(value, x, y, width, height)
-   
+function Button:init(value, x, y, width, height, factor)
+    factor = factor or 1.5
     self.x = x
     self.y = y
     self.width = width
     self.height = height
     self.value = value
     self.clicked = false
-    self.button_font = love.graphics.newFont("font.ttf", math.floor(math.min(width, height) - 10))
+    self.button_font = love.graphics.newFont("font.ttf", math.floor(math.min(width, height)/factor - 10))
 
 end
 

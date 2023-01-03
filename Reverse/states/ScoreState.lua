@@ -32,6 +32,7 @@ function ScoreState:update(dt)
 end
 
 function ScoreState:render()
+    love.graphics.setColor(TITLE_FG_COLOR)
     love.graphics.setFont(FINAL_SCORE_FONT)
     love.graphics.printf(self.final_score, 0, 10, love.graphics.getWidth(), "center")
     

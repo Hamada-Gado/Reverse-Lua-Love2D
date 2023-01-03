@@ -1,8 +1,5 @@
 TitleState = Class{__includes= BaseState}
 
--- constants
-local TITLE_FONT
-
 function TitleState:init()
 
     TITLE_FONT      = love.graphics.newFont("font.ttf", love.graphics.getWidth()/5)
@@ -15,15 +12,12 @@ function TitleState:create_buttons()
 
     local y = love.graphics.getHeight()/3
     
-    local width     = math.floor( (love.graphics.getWidth() - BUTTON_PADDING_X*3))
-    local height    = math.floor( (love.graphics.getHeight()/2 - BUTTON_PADDING_Y*4) / 4)
-
     self.buttons = {
 
-        ["PLAY"]            = Button("PLAY", (love.graphics.getWidth() - width)/2, y, width, height),
-        ["HISTORY"]         = Button("HISTORY", (love.graphics.getWidth() - width)/2, y + (height + BUTTON_PADDING_Y), width, height),
-        ["INSTRUCTIONS"]    = Button("INSTRUCTIONS", (love.graphics.getWidth() - width)/2, y + (height + BUTTON_PADDING_Y) * 2, width, height),
-        ["QUIT"]            = Button("QUIT", (love.graphics.getWidth() - width)/2, y + (height + BUTTON_PADDING_Y) * 3, width, height),
+        ["PLAY"]            = Button("PLAY", (love.graphics.getWidth() - BUTTON_WIDTH)/2, y, BUTTON_WIDTH, BUTTON_HEIGHT),
+        ["HISTORY"]         = Button("HISTORY", (love.graphics.getWidth() - BUTTON_WIDTH)/2, y + (BUTTON_HEIGHT + BUTTON_PADDING_Y), BUTTON_WIDTH, BUTTON_HEIGHT),
+        ["INSTRUCTIONS"]    = Button("INSTRUCTIONS", (love.graphics.getWidth() - BUTTON_WIDTH)/2, y + (BUTTON_HEIGHT + BUTTON_PADDING_Y) * 2, BUTTON_WIDTH, BUTTON_HEIGHT),
+        ["QUIT"]            = Button("QUIT", (love.graphics.getWidth() - BUTTON_WIDTH)/2, y + (BUTTON_HEIGHT + BUTTON_PADDING_Y) * 3, BUTTON_WIDTH, BUTTON_HEIGHT)
     }
 
 

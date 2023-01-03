@@ -28,6 +28,8 @@ function PlayState:create_shuffled_list()
         j = math.random(9)
         self.numbers_list[i], self.numbers_list[j] = self.numbers_list[j], self.numbers_list[i]
     end
+
+    self.numbers_list = {2,1,3,4,5,6,7,8,9}
 end
 
 function PlayState:create_buttons()
@@ -76,11 +78,9 @@ end
 function PlayState:update(dt)
     
     if self:check_win() then
-        if love.mouse.mousePressed then
-            self:reset()
-            love.mouse.mousePressed = false
-            return
-        end
+       _G.StateMachine:change('score', self.number_trials)
+       love.mouse.mousePressed = false
+       return
     end
 
     if love.mouse.mousePressed then
@@ -116,14 +116,10 @@ end
 function PlayState:render()
     love.graphics.setBackgroundColor(BACKGROUND_COLOR)
     love.graphics.setColor(NUMBERS_LIST_COLOR)
-    if self:check_win() then
-        love.graphics.printf("You win!!\nNumber of tries: " .. tostring(self.number_trials), 0, love.graphics.getHeight()/2, love.graphics.getWidth(), "center")
-    else
-        love.graphics.setFont(NUMBERS_LIST_FONT)
-        love.graphics.printf(" " .. table.concat(self.numbers_list, " ") .. " ", -10, love.graphics.getHeight()/6, love.graphics.getWidth(), "center") -- -10 is a number found by trial to make the numbers list look exactly centered
-        for _, button in ipairs(self.buttons) do
-            button:draw()
-        end
+    love.graphics.setFont(NUMBERS_LIST_FONT)
+    love.graphics.printf(" " .. table.concat(self.numbers_list, " ") .. " ", -10, love.graphics.getHeight()/6, love.graphics.getWidth(), "center") -- -10 is a number found by trial to make the numbers list look exactly centered
+    for _, button in ipairs(self.buttons) do
+        button:draw()
     end
     
 end

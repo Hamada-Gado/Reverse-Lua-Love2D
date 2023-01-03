@@ -11,11 +11,15 @@ require("StateMachine")
 require("states/BaseState")
 require("states/PlayState")
 require("states/TitleState")
+require("states/ScoreState")
 
 function love.load()
     love.window.setFullscreen(true)
     love.window.setMode(math.min(MAX_SCREEN_WIDTH, love.graphics.getWidth()), math.min(MAX_SCREEN_HEIGHT, love.graphics.getHeight()))
     
+    BUTTON_WIDTH    = math.floor( (love.graphics.getWidth() - BUTTON_PADDING_X*3))
+    BUTTON_HEIGHT   = math.floor( (love.graphics.getHeight()/2 - BUTTON_PADDING_Y*4) / 4)
+
     math.randomseed(os.time())
 
     _G.main_font = love.graphics.newFont('font.ttf', 32)
@@ -23,7 +27,7 @@ function love.load()
     _G.StateMachine = StateMachine {
         ['title'] = function() return TitleState() end,
         ['play'] = function() return PlayState() end,
-        -- ['score'] = function() return ScoreState() end,
+        ['score'] = function() return ScoreState() end,
     }
 
     _G.StateMachine:change('title')

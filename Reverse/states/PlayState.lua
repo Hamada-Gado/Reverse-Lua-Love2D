@@ -1,17 +1,16 @@
--- constants
-BACKGROUND_COLOR = {255/255, 202/255, 123/255}
-NUMBERS_LIST_COLOR = {1, 1, 1}
-
-MAX_NUMBERS_LIST_FONT = math.floor(MAX_SCREEN_WIDTH / 10)
-
 PlayState = Class{__includes = BaseState}
+
+-- constants
+
+local NUMBERS_LIST_COLOR = {1, 1, 1}
+
+local MAX_NUMBERS_LIST_FONT = math.floor(MAX_SCREEN_WIDTH / 10)
 
 function PlayState:init()
     self:create_shuffled_list()
     self:create_buttons()
     self.number_trials = 0
     NUMBERS_LIST_FONT = love.graphics.newFont("font.ttf", math.min( math.floor((love.graphics.getWidth()) / 10), MAX_NUMBERS_LIST_FONT))
-    print(NUMBERS_LIST_FONT:getHeight())
     
 end
 
@@ -38,7 +37,7 @@ function PlayState:create_buttons()
     local height    = math.floor( (love.graphics.getHeight()/2 - BUTTON_PADDING_Y*4) / 4)
     
     local j = 1
-    local x, y = 0, love.graphics.getHeight()/2 + height*(j-1) + BUTTON_PADDING_Y*(j-1)
+    local x, y = 0, love.graphics.getHeight()/3 + height*(j-1) + BUTTON_PADDING_Y*(j-1)
     for i = 1, 9 do
         if i%3 == 1 then 
             x = (love.graphics.getWidth() - 3*width) / 2 - BUTTON_PADDING_X
@@ -51,11 +50,12 @@ function PlayState:create_buttons()
         self.buttons[i] = Button(i, x, y, width, height)
         if i % 3 == 0 then
             j = j + 1
-            y = (love.graphics.getHeight()/2 + height*(j-1) + BUTTON_PADDING_Y*(j-1))
+            y = (love.graphics.getHeight()/3 + height*(j-1) + BUTTON_PADDING_Y*(j-1))
         end
     end
 
     self.buttons[10] = Button(0, (love.graphics.getWidth() - width)/2, y, width, height)
+    self.buttons[11] = Button("BACK", (BUTTON_PADDING_X*1.5), love.graphics.getHeight()*0.9, width*2.5, height)
 end
 
 function PlayState:reverse(number)
@@ -85,9 +85,7 @@ function PlayState:update(dt)
 
     if love.mouse.mousePressed then
         for _, button in ipairs(self.buttons) do
-            if button:check_clicked(love.mouse.mousePressed.x, love.mouse.mousePressed.y) then
-                button.clicked = true
-            end
+            button.clicked = button:check_clicked(love.mouse.mousePressed.x, love.mouse.mousePressed.y)
         end
 
         love.mouse.mousePressed = false
@@ -96,7 +94,9 @@ function PlayState:update(dt)
     if love.mouse.mouseReleased then
         for _, button in ipairs(self.buttons) do
             if button:check_clicked(love.mouse.mouseReleased.x, love.mouse.mouseReleased.y) then
-                if button.value == 0 then
+                if button.value == "BACK" then
+                    _G.StateMachine:change("title")
+                elseif button.value == 0 then
                     self:reset()
                 else
                     self:reverse(button.value)
@@ -120,7 +120,7 @@ function PlayState:render()
         love.graphics.printf("You win!!\nNumber of tries: " .. tostring(self.number_trials), 0, love.graphics.getHeight()/2, love.graphics.getWidth(), "center")
     else
         love.graphics.setFont(NUMBERS_LIST_FONT)
-        love.graphics.printf(" " .. table.concat(self.numbers_list, " ") .. " ", -10, love.graphics.getHeight()/3, love.graphics.getWidth(), "center") -- -10 is a number found by trial to make the numbers list look exactly centered
+        love.graphics.printf(" " .. table.concat(self.numbers_list, " ") .. " ", -10, love.graphics.getHeight()/6, love.graphics.getWidth(), "center") -- -10 is a number found by trial to make the numbers list look exactly centered
         for _, button in ipairs(self.buttons) do
             button:draw()
         end

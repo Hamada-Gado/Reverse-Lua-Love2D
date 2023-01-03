@@ -1,3 +1,5 @@
+BACKGROUND_COLOR = {255/255, 202/255, 123/255}
+
 MAX_SCREEN_WIDTH   = 730
 MAX_SCREEN_HEIGHT  = 1400
 
@@ -6,8 +8,9 @@ Class = require("class")
 require("Button")
 
 require("StateMachine")
-require('states/BaseState')
-require('states/PlayState')
+require("states/BaseState")
+require("states/PlayState")
+require("states/TitleState")
 
 function love.load()
     love.window.setFullscreen(true)
@@ -18,12 +21,12 @@ function love.load()
     _G.main_font = love.graphics.newFont('font.ttf', 32)
     
     _G.StateMachine = StateMachine {
-        -- ['title'] = function() return TitleScreenState() end,
+        ['title'] = function() return TitleState() end,
         ['play'] = function() return PlayState() end,
         -- ['score'] = function() return ScoreState() end,
     }
 
-    _G.StateMachine:change('play')
+    _G.StateMachine:change('title')
     
 
     love.mouse.mousePressed = false

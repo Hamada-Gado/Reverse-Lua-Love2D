@@ -1,3 +1,6 @@
+MAX_SCREEN_WIDTH   = 730
+MAX_SCREEN_HEIGHT  = 1400
+
 Class = require("class")
 
 require("Button")
@@ -6,10 +9,9 @@ require("StateMachine")
 require('states/BaseState')
 require('states/PlayState')
 
-
-
 function love.load()
     love.window.setFullscreen(true)
+    love.window.setMode(math.min(MAX_SCREEN_WIDTH, love.graphics.getWidth()), math.min(MAX_SCREEN_HEIGHT, love.graphics.getHeight()))
     
     math.randomseed(os.time())
 
@@ -25,6 +27,7 @@ function love.load()
     
 
     love.mouse.mousePressed = false
+    love.mouse.mouseReleased = false
 end
 
 function love.keypressed(key)
@@ -35,7 +38,12 @@ function love.keypressed(key)
 end
 
 function love.mousepressed(x, y, button, istouch, presses)
-    love.mouse.mousePressed = true    
+    love.mouse.mousePressed = {x = x, y = y, button = button, istouch = istouch, presses = presses}   
+end
+
+
+function  love.mousereleased(x, y, button, istouch, presses)
+    love.mouse.mouseReleased = {x = x, y = y, button = button, istouch = istouch, presses = presses}
 end
 
 function love.update(dt)
